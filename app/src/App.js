@@ -15,32 +15,42 @@ function App() {
       setAccount(accounts[0]);
       const taskList = new web3.eth.Contract(CONTACT_ABI, CONTACT_ADDRESS);
       setTaskList(taskList)
-
       const amountOfTasks = await taskList.methods.taskCount().call()
-
       for(let x = 1; x <= amountOfTasks; x++){
         const task = await taskList.methods.tasks(x).call();
         setTasks((tasks) => [...tasks, task])
-      }
-
+      }  
     }
     load()
   }, [])
+
+  async function getTasks(){
+    const amountOfTasks = await taskList.methods.taskCount().call()
+    for(let x = 1; x <= amountOfTasks; x++){
+      const task = await taskList.methods.tasks(x).call();
+      setTasks((tasks) => [...tasks, task])
+    }
+  }
+
+  async function changeTaskStatus(id){
+    await taskList.methods.toggleCompleted(id).send({from: account});
+    setTasks([])
+    getTasks()
+  }
 
   return (
     <>
       <div className='w-100 text-center my-3'>
         <h1>Hello World!</h1>
-        <p>Account: {/* account */ 'X'}</p>
+        <p>Account: {account}</p>
       </div>
       <div className='w-100'>
         {tasks?.map((task, index) => {
-          console.log(task)
           return(
             <div className="container" key={task[0]}>
               <p>ID: {task[0]}</p>
               <p>Content: {task[1]}</p>
-              <p>Completed: {task[2] === false ? 'No' : 'Yes'}</p>
+              <p>Completed: {task[2] === false ? 'No' : 'Yes'} <button className='btn btn-primary' onClick={e => changeTaskStatus(task[0])}>Alterar</button></p>
             </div>
           )
         })}
