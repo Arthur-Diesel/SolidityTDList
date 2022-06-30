@@ -1,4 +1,4 @@
-export const CONTACT_ADDRESS = '0x8Fc429a88EE4299b875ea075BFF281ca2d33Aaa0';
+export const CONTACT_ADDRESS = '0x6A0662C551a25153D578f51e308530171d83D28a';
 
 export const CONTACT_ABI = [
   {
@@ -91,6 +91,19 @@ export const CONTACT_ABI = [
       }
     ],
     "name": "toggleCompleted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeTask",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
